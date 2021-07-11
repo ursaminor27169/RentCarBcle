@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    {% block style %}
+    {% endblock %}
+    <title>RentCarBcle</title>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <b class="logo__bold">RentCarBcle</b>
+                <p class="logo__classic">аренда машин <br>и велосипедов</p>
+            </div>
+            <ul class="menu">
+                <li class="menu__item"><a href="{% url 'main' %}" class="menu__link">Главная</a></li>
+                <li class="menu__item"><a href="{% url 'cars' %}" class="menu__link">Автомобили</a></li>
+                <li class="menu__item"><a href="{% url 'bicycles' %}" class="menu__link">Велосипеды</a></li>
+            </ul>
+            <div class="entrance">
+                {% if user.is_authenticated %}
+                    <div class="greeting">
+                        <p class="greeting__description">Привет,</p>
+                        <b class="greeting__description_bold">{{ user.username }}</b>
+                    </div>
+                    <div class="exit">
+                        <a href="{% url 'logout' %}" class="exit__link">
+                            <img src="{% static '/img/exit.svg' %}" alt="Выйти" class="exit_icon">
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="greeting">
+                        <p class="greeting__description">Привет,</p>
+                        <b class="greeting__description_bold">Неизвестный</b>
+                    </div>
+                    <div class="exit">
+                        <a href="{% url 'login' %}" class="exit__link">
+                            <img src="{% static '/img/enter.svg' %}" alt="Зарегистрироваться" class="exit_icon">
+                        </a>
+                    </div>
+                    <div class="exit">
+                        <a href="{% url 'signup' %}" class="exit__link">
+                            <img src="{% static '/img/exit.svg' %}" alt="Войти" class="exit_icon">
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        {% block main %}
+        {% endblock %}
+    </main>
+    <footer class="footer">
+        <p class="footer__title">С любовью, RentCarBcle</p>
+    </footer>
+    {% block script %}
+        <script src="{% static '/js/script.js' %}"></script>
+    {% endblock %}
+</body>
+</html>

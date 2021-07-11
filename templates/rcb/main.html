@@ -1,0 +1,87 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% block main %}
+    <div class="title">
+        <h1 class="title__h1">RentCarBcle</h1>
+        <h2 class="title__h2">лучший сервис по аренде машин и велосипедов</h2>
+    </div>
+    <div class="goal">
+        <div class="pic-and-desc">
+            <div class="clients">
+                <div class="clients__now">
+                    <p class="clients__now_first">У нас уже</p>
+                    <p class="clients__now_second">{{ users_num }}</p>
+                    <p class="clients__now_third">клиента</p>
+                </div>
+                <div class="clients__future">
+                    <p class="clients__future_main">Наша цель - 10</p>
+                </div>
+            </div>
+            <div class="pic">
+                <img src="{% static '/img/bike.svg' %}" alt="" class="pic_pic">
+            </div>
+        </div>
+        <div class="statistic">
+            <div class="statistic__line"></div>
+        </div>
+    </div>
+    <div class="about">
+        <p class="about__title">О нас</p>
+        <div class="about__paragraphs">
+            <p class="about__paragraphs_p">Мы - прогрессивное и быстрорастущее агенство по аренде машин и велосипедов.</p>
+            <p class="about__paragraphs_p">В нашем автопарке 16 видов автомобилей, имеющих *перечисление*. Вы сможете
+                найти  ту самую вашу машину, которая подходит вам по всем параметрам.</p>
+            <p class="about__paragraphs_p">Если у вас нет водительских прав - у нас есть альтернатива автомобилям - велосипеды.
+                Горные и городские, *перечисление* - благодаря этому разнообразию, вы можете
+                выбрать подходящий велосипед.</p>
+            <p class="about__paragraphs_p">Мы работаем <span class="anima">без предоплаты</span>, так как доверяем нашим клиентам и не хотим, чтобы
+                они чувствовали даже малейший дискомфорт в плане финансов. Также мы не хотим,
+                чтобы вы не подстраивались под наш режим работы, поэтому мы подстроимся под
+                ваш график. Для этого наш сервис работает <span class="anima">24/7</span>. Вы можете не смотреть на время
+                и не нервничать из-за того, что можете не успеть закончить поездку к назначенному
+                времени - у нас <span class="anima">нет штрафов за опоздания</span> при сдаче автомобиля или велосипеда,
+                вы просто платите дальше по тарифу. Но если вы сдадите транспортное средство
+                вовремя - мы предоставим вам <span class="anima">скидку 10%</span> на следующую поездку в нашем агенстве.</p>
+        </div>
+    </div>
+    <div class="reviews">
+        <p class="reviews__title">Отзывы</p>
+        <div class="reviews-cont">
+            {% for C in list_comments%}
+                <div class="review">
+                    <p class="review__title">{{C.title}}</p>
+                    <p class="review__author">{{C.author}}</p>
+                    <p class="review__time">{{C.create_date}}</p>
+                    <p class="review__comment">{{C.text}}</p>
+                    {% if user == C.author%}
+                        <div class="review__rad">
+                            <a href="{% url 'update_comment' C.id %}" class="review__redact">Редактировать</a>
+                            <form id = "delete_form" action="{% url 'delete_comment' C.id %}" method="post">{% csrf_token %}</form>
+                            <a href="javascript:void()" class="review__delete" onclick="delete_comment()">Удалить</a>
+                            <script>
+                                function delete_comment(){
+                                    if (confirm("Вы уверены?")){
+                                        document.getElementById("delete_form").submit()
+                                    }
+                                }
+                            </script>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <p class="reviews__title">Добавить отзыв</p>
+        <div class="reviews-add">
+            <form class="reviews-add-form" id="add_form" method="post">
+                {% csrf_token %}
+                {{form}}
+                <!--<input class="reviews-add-form__title" type="text">-->
+                <!--<textarea class="reviews-add-form__comm"></textarea>-->
+            </form>
+            <div>
+                <button form="add_form" type="submit" class="reviews-add__button">Сохранить отзыв</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

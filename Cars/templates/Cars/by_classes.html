@@ -1,0 +1,38 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static '/css/animate.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div class="products">
+        <p class="products__title">Автомобили</p>
+        <div class="filters">
+            <ul class="filter">
+                {% for Cl in classes %}
+                    <li class="filter__item"><a href="{% url 'filter_by_class' Cl.pk %}"> {{ Cl.rank }} </a></li>
+                {% endfor %}
+                <li class="filter__item"><a href="{% url 'cars' %}"> Все </a></li>
+            </ul>
+        </div>
+            <div class="products-cont">
+                {% for C in Cars%}
+                    <div class="product wow fadeInUp">
+                        {% if C.image %}
+                            <img src="{{C.image.url}}" alt="{{ T.name }}" class="product__img">
+                        {% endif %}
+                        <p class="product__title">{{C.stamp}}</p>
+                        <p class="product__price">{{C.price}} &#8381;/сутки</p>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static '/js/wow.js' %}"></script>
+    <script>
+        new WOW().init();
+    </script>
+{% endblock %}

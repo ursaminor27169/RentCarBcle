@@ -1,0 +1,31 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static '/css/animate.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div class="products">
+        <p class="products__title">Велосипеды</p>
+        <div class="filters">
+            <ul class="filter">
+                {% for T in stamps %}
+                    <li class="filter__item"><a href="{% url 'filter_by_stamp' T.pk %}"> {{ T.mark }} {{ T.model }}</a></li>
+                {% endfor %}
+                <li class="filter__item"><a href="{% url 'bicycles' %}"> Все </a></li>
+            </ul>
+        </div>
+            <div class="products-cont">
+                {% for bicycle in Bicycles%}
+                    <div class="product wow fadeInUp">
+                        {% if bicycle.image %}
+                            <img src="{{bicycle.image.url}}" alt="{{bicycle.stamp}}" class="product__img">
+                        {% endif %}
+                        <p class="product__title">{{bicycle.stamp}}</p>
+                        <p class="product__price">{{bicycle.price}} &#8381;/час</p>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block main %}
+    <div class="about">
+        <p class="about__title">Войти</p>
+        <div class="reviews-add">
+            <form class="reviews-add-form" id="add_form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <!--<input class="reviews-add-form__title" type="text">-->
+                <!--<textarea class="reviews-add-form__comm"></textarea>-->
+            </form>
+            <div>
+                <button form="add_form" type="submit" class="reviews-add__button">Войти</button>
+            </div>
+        </div>
+    </div>
+        <!--
+<h2>Log In</h2>
+<form method="post" class="reviews-add-form">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Log In</button>
+</form>-->
+{% endblock %}
